@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_group_black"
+            android:title="About Us" />
+        <item
+            android:id="@+id/nav_eula"
+            android:icon="@drawable/ic_eula_black"
+            android:title="User License Agreement" />
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/ic_support_black"
+            android:title="Support" />
+    </group>
+</menu>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#002A90</color>
+    <color name="colorPrimaryDark">#001F7D</color>
+    <color name="colorAccent">#B3BFDE</color>
+    <color name="colorLight">#E0E5F2</color>
+
+    <!--
+     <color name="mcgpalette0_50">#e0e5f2</color>
+     <color name="mcgpalette0_100">#b3bfde</color>
+     <color name="mcgpalette0_200">#8095c8</color>
+     <color name="mcgpalette0_300">#4d6ab1</color>
+     <color name="mcgpalette0_400">#264aa1</color>
+     <color name="mcgpalette0_500">#002a90</color>
+     <color name="mcgpalette0_600">#002588</color>
+     <color name="mcgpalette0_700">#001f7d</color>
+     <color name="mcgpalette0_800">#001973</color>
+     <color name="mcgpalette0_900">#000f61</color>
+     <color name="mcgpalette0_A100">#9199ff</color>
+     <color name="mcgpalette0_A200">#5e6aff</color>
+     <color name="mcgpalette0_A400">#2b3bff</color>
+     <color name="mcgpalette0_A700">#1223ff</color>
+    -->
+</resources>

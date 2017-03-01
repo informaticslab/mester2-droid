@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="192dp"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:padding="16dp"
+              android:background="@drawable/navbar_header_bg_gradient"
+              android:theme="@style/ThemeOverlay.AppCompat.Dark"
+              android:orientation="vertical"
+              android:gravity="bottom">
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_mec_logo_text_path"/>
+
+</LinearLayout>
