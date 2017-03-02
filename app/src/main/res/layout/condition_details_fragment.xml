@@ -125,6 +125,16 @@
         app:layout_constraintLeft_toRightOf="@id/leftArrow"
         app:layout_constraintRight_toLeftOf="@id/rightArrow"
         />
+
+    <include
+        android:id="@+id/initiation_continuation_control"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/initiation_continuation_control"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/subConditionTitle"/>
     <TextView
         android:id="@+id/chc"
         android:text="@string/chc_label"
@@ -132,7 +142,7 @@
         android:layout_height="50dp"
         android:background="@color/colorLight"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintTop_toBottomOf="@id/subConditionTitle"
+        app:layout_constraintTop_toBottomOf="@id/initiation_continuation_control"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_width="0dp"

@@ -47,7 +47,7 @@ public class ConditionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // inflate the layout containing a title and body text
         ViewGroup rootView = (ViewGroup) inflater
-                .inflate(R.layout.condition_fragment, container, false);
+                .inflate(R.layout.condition_details_fragment, container, false);
 
         ((TextView) rootView.findViewById(R.id.chcRating)).setText(condition.getChcInitiation().getRating());
         ((TextView) rootView.findViewById(R.id.popRating)).setText(condition.getPopInitiation().getRating());

@@ -1,14 +1,8 @@
 package gov.cdc.mester2;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -702,7 +696,7 @@ public class WheelActivity extends AppCompatActivity {
             Log.d(TAG, "instantiateItem: started");
             LayoutInflater inflater = LayoutInflater.from(mContext);
 
-            ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.condition_fragment, container, false);
+            ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.condition_details_fragment, container, false);
             container.addView(layout);
 
             Button right = (Button) layout.findViewById(R.id.rightArrow);
