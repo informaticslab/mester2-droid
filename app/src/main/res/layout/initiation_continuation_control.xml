@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RadioGroup
+    android:id="@+id/tabHost"
+    android:orientation="horizontal"
+    android:checkedButton="@+id/initiationRadioButton"
+    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RadioGroup
-        android:id="@+id/tabHost"
-        android:orientation="horizontal"
-        android:checkedButton="@+id/initiationRadioButton"
+    <RadioButton
+        android:id="@+id/initiationRadioButton"
+        android:background="@drawable/radio_btn_selector"
+        android:textColor="@drawable/radio_btn_textcolor_selector"
+        android:button="@null"
+        android:text="@string/initiation"
         android:gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
-        <RadioButton
-            android:id="@+id/initiationRadioButton"
-            android:background="@drawable/radio_btn_selector"
-            android:textColor="@drawable/radio_btn_textcolor_selector"
-            android:button="@null"
-            android:text="Initiation"
-            android:gravity="center"
-            android:padding="5dp"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"/>
-        <RadioButton
-            android:id="@+id/continuationRadioButton"
-            android:background="@drawable/radio_btn_selector"
-            android:textColor="@drawable/radio_btn_textcolor_selector"
-            android:button="@null"
-            android:text="Continuation"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"/>
-    </RadioGroup>
-
-</LinearLayout>
+        android:padding="5dp"
+        android:layout_width="0dp"
+        android:layout_weight=".5"
+        android:layout_height="wrap_content"/>
+    <RadioButton
+        android:id="@+id/continuationRadioButton"
+        android:background="@drawable/radio_btn_selector"
+        android:textColor="@drawable/radio_btn_textcolor_selector"
+        android:button="@null"
+        android:text="@string/continuation"
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_weight=".5"
+        android:layout_height="wrap_content"/>
+</RadioGroup>

@@ -1,42 +1,30 @@
 package gov.cdc.mester2;
 
-import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 
-public class WheelActivity extends AppCompatActivity {
+public class WheelActivity extends AppCompatActivity implements ConditionsPagerFragment.OnFragmentInteractionListener {
+    @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "Wheel Activity";
-    protected ActionBarDrawerToggle mDrawerToggle;
-    protected DrawerLayout mDrawerLayout;
-    protected NavigationView mNavigationView;
-    private TabLayout tabLayout;
-    private Toolbar toolbar;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
     private Realm realm;
 
     @Override
@@ -46,18 +34,30 @@ public class WheelActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
+        /* TODO: Uncomment this block for production
+        SharedPreferences sp = getSharedPreferences("MEC_Preferences", 0);
+        if(!sp.getBoolean("conditionsAdded", false)) {
+            SharedPreferences.Editor editor = sp.edit(); */
+            populateRealm();
+        /*
+            editor.putBoolean("conditionsAdded", true).apply();
+        }
+        */
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container, ConditionsPagerFragment.newInstance());
+        transaction.commit();
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        tabLayout = (TabLayout) findViewById(R.id.tab_host);
+
     }
 
     /**
      * In case if you require to handle drawer open and close states
      */
-    protected void setupActionBarDrawerToogle() {
+    private void setupActionBarDrawerToggle() {
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -83,13 +83,28 @@ public class WheelActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
-    protected void setupDrawerContent(final NavigationView navigationView) {
+    private void setupDrawerContent(final NavigationView navigationView) {
+
+
         //setting up selected item listener
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        if (menuItem.isChecked()) mDrawerLayout.closeDrawers();
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        closeNavDrawer();
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_about:
+                                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                                break;
+                            case R.id.nav_eula:
+                                startActivity(new Intent(getApplicationContext(), EulaActivity.class));
+
+                                break;
+                            case R.id.nav_support:
+                                startActivity(new Intent(getApplicationContext(), SupportActivity.class));
+
+                                break;
+                        }
                         return true;
                     }
                 });
@@ -105,10 +120,21 @@ public class WheelActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_search:
+                startActivityForResult(new Intent(this, SearchActivity.class), 1);
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1) {
+            ConditionsPagerFragment pagerFragment = (ConditionsPagerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            pagerFragment.setDisplayCondition(data.getStringExtra("conditionName"));
+        }
     }
 
     @Override
@@ -126,11 +152,11 @@ public class WheelActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean isNavDrawerOpen() {
+    private boolean isNavDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START);
     }
 
-    protected void closeNavDrawer() {
+    private void closeNavDrawer() {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
@@ -140,38 +166,32 @@ public class WheelActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        populateRealm();
-
-        /* TODO: Use this block for production
-        SharedPreferences sp = getSharedPreferences("MEC_Preferences", 0);
-        if(!sp.getBoolean("conditionsAdded", false)) {
-            SharedPreferences.Editor editor = sp.edit();
-            populateRealm();
-            editor.putBoolean("conditionsAdded", true).apply();
-        }
-        */
-
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setHomeAsUpIndicator(R.drawable.ic_menu_white);
 
         ab.setHomeActionContentDescription("Menu");
 
         ab.setDisplayHomeAsUpEnabled(true);
 
-        setupActionBarDrawerToogle();
+        setupActionBarDrawerToggle();
         if (mNavigationView != null) {
             setupDrawerContent(mNavigationView);
         }
+    }
 
-        mPagerAdapter = new ContentPagerAdapter(this, realm);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setOffscreenPageLimit(10);
+    @Override
+    protected void onStop() {
+        super.onStop();
 
-        tabLayout.setupWithViewPager(mPager);
+        Menu menu = mNavigationView.getMenu();
+
+        for(int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setChecked(false);
+        }
     }
 
     private void populateRealm() {
@@ -188,6 +208,7 @@ public class WheelActivity extends AppCompatActivity {
         String subConditionName;
 
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         conditionName = "Cancers";
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
@@ -214,6 +235,7 @@ public class WheelActivity extends AppCompatActivity {
         realm.commitTransaction();
 
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         conditionName = "Vaginal Bleeding";
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
@@ -233,6 +255,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "PID";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -251,6 +274,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Sexually Transmitted Infections";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -284,6 +308,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "HIV/AIDS";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -303,6 +328,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Age";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -322,6 +348,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Smoking";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -348,6 +375,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Drug Interactions";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -381,6 +409,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Hypertension";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -407,6 +436,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Cardiovascular Disease";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -440,6 +470,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Deep Vein Thrombosis";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -480,6 +511,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Headaches";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -506,6 +538,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Liver Diseases";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -539,6 +572,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "IBD";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -558,6 +592,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Diabetes";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -577,6 +612,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Obesity";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -596,6 +632,7 @@ public class WheelActivity extends AppCompatActivity {
 
         conditionName = "Bariatric Surgery";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -623,6 +660,7 @@ public class WheelActivity extends AppCompatActivity {
         //TODO: move the "A's" to notes once notes are implemented
         conditionName = "Postpartum";
         parentCondition = new Condition();
+        parentCondition.setHasChildren(true);
         parentCondition.setName(conditionName);
         parentCondition.setId(conditionName);
         childConditions = new RealmList<>();
@@ -669,118 +707,8 @@ public class WheelActivity extends AppCompatActivity {
         realm.close();
     }
 
-    private class ContentPagerAdapter extends PagerAdapter {
-        private Context mContext;
-        private RealmResults<Condition> query;
+    @Override
+    public void onFragmentInteraction() {
 
-        private ArrayList<Condition> displayConditions = new ArrayList<>();
-
-        public ContentPagerAdapter(Context context, Realm realm) {
-            mContext = context;
-            Log.d(TAG, "ContentPagerAdapter: started");
-            query = realm.where(Condition.class).findAllSorted("name");
-            for(Condition condition : query){
-                Log.d(TAG, "ContentPagerAdapter: parentCondition.hasChildren(): " +(condition.getChildConditions().size() > 0));
-                if(condition.getChildConditions().size() > 0) {
-                    for(Condition child : condition.getChildConditions()) {
-                        displayConditions.add(child);
-                    }
-                }
-            }
-            Log.d(TAG, "ContentPagerAdapter: displayConditionsSize: " +displayConditions.size());
-        }
-
-        @Override
-        public Object instantiateItem(final ViewGroup container, final int position) {
-            Condition currentCondition = displayConditions.get(position);
-            Log.d(TAG, "instantiateItem: started");
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-
-            ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.condition_details_fragment, container, false);
-            container.addView(layout);
-
-            Button right = (Button) layout.findViewById(R.id.rightArrow);
-            right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int next = position == displayConditions.size() -1 ? 0 : position + 1;
-                    mPager.setCurrentItem(next, true);
-                }
-            });
-
-            Button left = (Button) layout.findViewById(R.id.leftArrow);
-            left.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int prev = position == 0 ? displayConditions.size() -1 : position - 1;
-                    mPager.setCurrentItem(prev, true);
-                }
-            });
-
-            TextView title = (TextView) layout.findViewById(R.id.parentConditionTitle);
-            title.setText(currentCondition.getParentCondition().getName());
-
-            TextView subTitle = (TextView) layout.findViewById(R.id.subConditionTitle);
-            subTitle.setText(currentCondition.getName());
-
-            TextView chcRating = (TextView) layout.findViewById(R.id.chcRating);
-            chcRating.setText(currentCondition.getChcInitiation().getRating());
-
-            TextView popRating = (TextView) layout.findViewById(R.id.popRating);
-            popRating.setText(currentCondition.getPopInitiation().getRating());
-
-            TextView dmpaRating = (TextView) layout.findViewById(R.id.dmpaRating);
-            dmpaRating.setText(currentCondition.getDmpaInitiation().getRating());
-
-            TextView implantsRating = (TextView) layout.findViewById(R.id.implantsRating);
-            implantsRating.setText(currentCondition.getImplantsInitiation().getRating());
-
-            TextView lngiudRating = (TextView) layout.findViewById(R.id.lngiudRating);
-            lngiudRating.setText(currentCondition.getLngiudInitiation().getRating());
-
-            TextView cuiudRating = (TextView) layout.findViewById(R.id.cuiudRating);
-            cuiudRating.setText(currentCondition.getCuiudInitiation().getRating());
-
-            return layout;
-        }
-
-/*      Set toolbar title to parent condition name
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            toolbar.setTitle(displayConditions.get(position).getParentCondition().getName());
-        }*/
-
-        @Override
-        public void finishUpdate(ViewGroup container) {
-            super.finishUpdate(container);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Condition currentCondition = displayConditions.get(position);
-            return "" +currentCondition.getParentCondition().getName() +"\n" +currentCondition.getName();
-
-        }
-
-        @Override
-        public int getCount() {
-            return displayConditions.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        public void o(int pageNumber) {
-            // Just define a callback method in your fragment and call it like this!
-
-        }
     }
 }

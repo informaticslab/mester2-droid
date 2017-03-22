@@ -10,10 +10,6 @@ import android.widget.TextView;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
-/**
- * Created by jason on 2/22/17.
- */
-
 public class ConditionFragment extends Fragment {
     private Realm realm;
     private Condition condition;

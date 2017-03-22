@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MEC Wheel</string>
+    <string name="search_title">Search</string>
 
     <string name="chc_label">Combined hormonal methods (pills, patch, ring)</string>
     <string name="pop_label">Progestin-only pills (POPs)</string>
@@ -10,4 +11,18 @@
 
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
+
+    <string name="search_hint">Condition name</string>
+
+    <string name="about_text">About</string>
+    <string name="license_agreement_text">License Agreement</string>
+    <string name="support_text">Support</string>
+    <string name="left_arrow">←</string>
+    <string name="right_arrow">→</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="nav_eula">User License Agreement</string>
+    <string name="nav_support">Support</string>
+    <string name="initiation">Initiation</string>
+    <string name="continuation">Continuation</string>
+    <string name="search_no_results">No results found</string>
 </resources>

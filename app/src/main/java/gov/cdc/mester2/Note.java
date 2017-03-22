@@ -2,10 +2,6 @@ package gov.cdc.mester2;
 
 import io.realm.RealmObject;
 
-/**
- * Created by jason on 2/13/17.
- */
-
 public class Note extends RealmObject{
     private String name, text;
 

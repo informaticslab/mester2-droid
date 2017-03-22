@@ -3,10 +3,6 @@ package gov.cdc.mester2;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-/**
- * Created by jason on 2/13/17.
- */
-
 public class Rating extends RealmObject {
     private String rating;
     private RealmList<Note> notes;

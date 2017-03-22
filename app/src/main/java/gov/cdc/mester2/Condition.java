@@ -4,10 +4,6 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by jason on 2/13/17.
- */
-
 public class Condition extends RealmObject {
     @PrimaryKey
     private String id;
