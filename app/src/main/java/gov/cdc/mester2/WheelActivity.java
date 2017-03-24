@@ -286,14 +286,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Breast cancer (current)";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("4"),new Rating("4"), new Rating("4"), new Rating("4"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Cervical cancer (pre-treatment)";
         subCondition = new Condition(subConditionName, new Rating("2"),
                 new Rating("1"),new Rating("2"), new Rating("2"), new Rating("4"),
-                new Rating("4"), null, parentCondition);
+                new Rating("4"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -313,7 +313,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Unexplained";
         subCondition = new Condition(subConditionName, new Rating("2", crossOnly),
                 new Rating("2", crossOnly),new Rating("3", crossOnly), new Rating("3", crossOnly), new Rating("4", crossOnly),
-                new Rating("4", crossOnly), null, parentCondition);
+                new Rating("4", crossOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
         parentCondition.setChildConditions(childConditions);
@@ -332,7 +332,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Current";
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("4"),
-                new Rating("4"), null, parentCondition);
+                new Rating("4"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
         parentCondition.setChildConditions(childConditions);
@@ -351,14 +351,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Gonorrhea Chlamydia";
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("4"),
-                new Rating("4"), new RealmList<>(D), parentCondition);
+                new Rating("4"), null, null, null, null, null, null, new RealmList<>(D), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Other STIs and vaginitis";
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("2"),
-                new Rating("2"), null, parentCondition);
+                new Rating("2"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -366,7 +366,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(F, cross);
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("2/3", ratingNotes),
-                new Rating("2/3", ratingNotes), null, parentCondition);
+                new Rating("2/3", ratingNotes), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -387,7 +387,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(H);
         subCondition = new Condition(subConditionName, new Rating("1", crossOnly),
                 new Rating("1", crossOnly),new Rating("1", crossOnly), new Rating("1", crossOnly), new Rating("3", ratingNotes),
-                new Rating("3", ratingNotes), null, parentCondition);
+                new Rating("3", ratingNotes), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -408,7 +408,11 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(E);
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("2"), new Rating("1"), new Rating("2", ratingNotes),
-                new Rating("2", ratingNotes), null, parentCondition);
+                new Rating("2", ratingNotes),
+                new Rating("9"),
+                new Rating("9"),new Rating("9"), new Rating("9"), new Rating("9"),
+                new Rating("9"),
+                null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -428,7 +432,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Age < 35";
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("2"), new Rating("1"), new Rating("2"),
-                new Rating("2"), null, parentCondition);
+                new Rating("2"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -436,7 +440,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(I);
         subCondition = new Condition(subConditionName, new Rating("4", ratingNotes),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -456,14 +460,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Rifampicin/rifabutin";
         subCondition = new Condition(subConditionName, new Rating("3", crossOnly),
                 new Rating("3", crossOnly),new Rating("1"), new Rating("2", crossOnly), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Certain anti-convulsants";
         subCondition = new Condition(subConditionName, new Rating("3", crossOnly),
                 new Rating("3", crossOnly),new Rating("1"), new Rating("2", crossOnly), new Rating("1"),
-                new Rating("1"), new RealmList<>(Q), parentCondition);
+                new Rating("1"), null, null, null, null, null, null, new RealmList<>(Q), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -471,7 +475,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(H, cross);
         subCondition = new Condition(subConditionName, new Rating("3", crossOnly),
                 new Rating("3", crossOnly),new Rating("1"), new Rating("2", crossOnly), new Rating("2/3", ratingNotes),
-                new Rating("2/3", ratingNotes), new RealmList<>(J), parentCondition);
+                new Rating("2/3", ratingNotes), null, null, null, null, null, null, new RealmList<>(J), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -491,14 +495,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "140-159/90-99";
         subCondition = new Condition(subConditionName, new Rating("3"),
                 new Rating("1"),new Rating("2"), new Rating("1"), new Rating("1"),
-                new Rating("1"), new RealmList<>(K), parentCondition);
+                new Rating("1"), null, null, null, null, null, null, new RealmList<>(K), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "≥160/≥100";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2"),new Rating("3"), new Rating("2"), new Rating("2"),
-                new Rating("1"), new RealmList<>(L), parentCondition);
+                new Rating("1"), null, null, null, null, null, null, new RealmList<>(L), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -518,21 +522,21 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Stroke";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2"),new Rating("3"), new Rating("2"), new Rating("2"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Ischemic";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2"),new Rating("3"), new Rating("2"), new Rating("2"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Multiple risk factors";
         subCondition = new Condition(subConditionName, new Rating("3/4", new RealmList<>(V, cross)),
                 new Rating("2", crossOnly),new Rating("3", crossOnly), new Rating("2", crossOnly), new Rating("2"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -552,14 +556,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "History";
         subCondition = new Condition(subConditionName, new Rating("4", new RealmList<>(R)),
                 new Rating("2"),new Rating("2"), new Rating("2"), new Rating("2"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Acute";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2"),new Rating("2"), new Rating("2"), new Rating("2"),
-                new Rating("2"), null, parentCondition);
+                new Rating("2"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -568,14 +572,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         RealmList<Note> sOnly = new RealmList<>(S);
         subCondition = new Condition(subConditionName, new Rating("4", ratingNotes),
                 new Rating("2", sOnly),new Rating("2", sOnly), new Rating("2", sOnly), new Rating("2", sOnly),
-                new Rating("2", sOnly), null, parentCondition);
+                new Rating("2", sOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Major Surgery";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2"),new Rating("2"), new Rating("2"), new Rating("2"),
-                new Rating("1"), new RealmList<>(T), parentCondition);
+                new Rating("1"), null, null, null, null, null, null, new RealmList<>(T), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -595,14 +599,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Migraine without aura";
         subCondition = new Condition(subConditionName, new Rating("3", new RealmList<>(M, cross)),
                 new Rating("1", crossOnly),new Rating("2", crossOnly), new Rating("2", crossOnly), new Rating("2", crossOnly),
-                new Rating("1", crossOnly), null, parentCondition);
+                new Rating("1", crossOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Migraine with aura";
         subCondition = new Condition(subConditionName, new Rating("4", crossOnly),
                 new Rating("2", crossOnly),new Rating("2", crossOnly), new Rating("2", crossOnly), new Rating("2", crossOnly),
-                new Rating("1", crossOnly), null, parentCondition);
+                new Rating("1", crossOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -622,21 +626,21 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Tumors";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("3"),new Rating("3"), new Rating("3"), new Rating("3"),
-                new Rating("1"), new RealmList<>(U), parentCondition);
+                new Rating("1"), null, null, null, null, null, null, new RealmList<>(U), parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Severe cirrhosis";
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("3"),new Rating("3"), new Rating("3"), new Rating("3"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Hepatitis acute / flare";
         subCondition = new Condition(subConditionName, new Rating("3/4", new RealmList<>(W, cross)),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -656,7 +660,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "IBD";
         subCondition = new Condition(subConditionName, new Rating("2/3", new RealmList<>(G, cross)),
                 new Rating("2"),new Rating("2"), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -677,7 +681,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(O);
         subCondition = new Condition(subConditionName, new Rating("2", ratingNotes),
                 new Rating("2"),new Rating("2", ratingNotes), new Rating("2"), new Rating("2"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -697,7 +701,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Obesity";
         subCondition = new Condition(subConditionName, new Rating("2"),
                 new Rating("1"),new Rating("2", new RealmList<>(N)), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -717,14 +721,14 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         subConditionName = "Restrictive procedures";
         subCondition = new Condition(subConditionName, new Rating("1"),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "Malabsorbtive procedures";
         subCondition = new Condition(subConditionName, new Rating("3", new RealmList<>(P)),
                 new Rating("3"),new Rating("1"), new Rating("1"), new Rating("1"),
-                new Rating("1"), null, parentCondition);
+                new Rating("1"), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
@@ -746,28 +750,28 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
         ratingNotes = new RealmList<>(B);
         subCondition = new Condition(subConditionName, new Rating("4"),
                 new Rating("2", ratingNotes),new Rating("2", ratingNotes), new Rating("2", ratingNotes), new Rating("", aOnly),
-                new Rating("", aOnly), null, parentCondition);
+                new Rating("", aOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "21-< 30 days breastfeeding";
         subCondition = new Condition(subConditionName, new Rating("3", crossOnly),
                 new Rating("2", crossOnly),new Rating("2", crossOnly), new Rating("2", crossOnly), new Rating("", aOnly),
-                new Rating("", aOnly), null, parentCondition);
+                new Rating("", aOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "30-42 days breastfeeding";
         subCondition = new Condition(subConditionName, new Rating("3", new RealmList<>(C, cross)),
                 new Rating("1", crossOnly),new Rating("1", crossOnly), new Rating("1", crossOnly), new Rating("", aOnly),
-                new Rating("", aOnly), null, parentCondition);
+                new Rating("", aOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 
         subConditionName = "21-42 days not breastfeeding";
         subCondition = new Condition(subConditionName, new Rating("3", new RealmList<>(C, cross)),
                 new Rating("1"),new Rating("1"), new Rating("1"), new Rating("", aOnly),
-                new Rating("", aOnly), null, parentCondition);
+                new Rating("", aOnly), null, null, null, null, null, null, null, parentCondition);
         subCondition.setName(subConditionName);
         childConditions.add(subCondition);
 

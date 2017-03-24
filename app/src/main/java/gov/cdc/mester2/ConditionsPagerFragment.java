@@ -3,6 +3,7 @@ package gov.cdc.mester2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -17,13 +18,18 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+
+import static android.view.View.GONE;
 
 
 /**
@@ -189,14 +195,15 @@ public class ConditionsPagerFragment extends Fragment {
 
         @Override
         public Object instantiateItem(final ViewGroup container, final int position) {
-            Condition currentCondition = displayConditions.get(position);
+            final Condition currentCondition = displayConditions.get(position);
             if(DEBUG) {
                 Log.d(TAG, "instantiateItem: started");
             }
             LayoutInflater inflater = LayoutInflater.from(mContext);
 
-            ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.condition_details_fragment, container, false);
+            final ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.condition_details_fragment, container, false);
             container.addView(layout);
+            final TextSwitcher[] textSwitchers = setupRatingTextSwitchers(layout);
 
             Button right = (Button) layout.findViewById(R.id.rightArrow);
             right.setOnClickListener(new View.OnClickListener() {
@@ -216,48 +223,138 @@ public class ConditionsPagerFragment extends Fragment {
                 }
             });
 
+
+            boolean hasContinuation = true;
+            boolean hasInitiation = true;
+
+            RadioGroup initiationContinuationControl = (RadioGroup) layout.findViewById(R.id.initiation_continuation_control);
+
+            if(currentCondition.getChcContinuation() == null &&
+                    currentCondition.getPopContinuation() == null &&
+                    currentCondition.getDmpaContinuation() == null &&
+                    currentCondition.getImplantsContinuation() == null &&
+                    currentCondition.getLngiudContinuation() == null &&
+                    currentCondition.getCuiudContinuation() == null) {
+
+                hasContinuation = false;
+
+            }
+
+            if(currentCondition.getChcInitiation() == null &&
+                    currentCondition.getPopInitiation() == null &&
+                    currentCondition.getDmpaInitiation() == null &&
+                    currentCondition.getImplantsInitiation() == null &&
+                    currentCondition.getLngiudInitiation() == null &&
+                    currentCondition.getCuiudInitiation() == null) {
+
+                hasInitiation = false;
+            }
+
+            if(!hasContinuation) {
+                //Doesn't have Continuation ratings, hide continuation selector and check initiation
+                initiationContinuationControl.findViewById(R.id.continuationRadioButton).setVisibility(GONE);
+                initiationContinuationControl.check(R.id.initiationRadioButton);
+            } else if(!hasInitiation){
+                initiationContinuationControl.findViewById(R.id.initiationRadioButton).setVisibility(GONE);
+                initiationContinuationControl.check(R.id.continuationRadioButton);
+            } else {
+                initiationContinuationControl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                        setRatingText(textSwitchers, i, currentCondition);
+                    }
+                });
+            }
+            int ratingToDisplay = initiationContinuationControl.getCheckedRadioButtonId();
+
+
             TextView title = (TextView) layout.findViewById(R.id.parentConditionTitle);
             title.setText(currentCondition.getParentCondition().getName());
 
             TextView subTitle = (TextView) layout.findViewById(R.id.subConditionTitle);
             subTitle.setText(currentCondition.getName());
 
-            TextView chcRating = (TextView) layout.findViewById(R.id.chcRating);
-            chcRating.setText(concatRatingAndNotes(currentCondition.getChcInitiation()));
-            configureRatingTextView(chcRating, currentCondition.getChcInitiation());
-
-            TextView popRating = (TextView) layout.findViewById(R.id.popRating);
-            popRating.setText(concatRatingAndNotes(currentCondition.getPopInitiation()));
-            configureRatingTextView(popRating, currentCondition.getPopInitiation());
-
-            TextView dmpaRating = (TextView) layout.findViewById(R.id.dmpaRating);
-            dmpaRating.setText(concatRatingAndNotes(currentCondition.getDmpaInitiation()));
-            configureRatingTextView(dmpaRating, currentCondition.getDmpaInitiation());
-
-            TextView implantsRating = (TextView) layout.findViewById(R.id.implantsRating);
-            implantsRating.setText(concatRatingAndNotes(currentCondition.getImplantsInitiation()));
-            configureRatingTextView(implantsRating, currentCondition.getImplantsInitiation());
-
-            TextView lngiudRating = (TextView) layout.findViewById(R.id.lngiudRating);
-            lngiudRating.setText(concatRatingAndNotes(currentCondition.getLngiudInitiation()));
-            configureRatingTextView(lngiudRating, currentCondition.getLngiudInitiation());
-
-            TextView cuiudRating = (TextView) layout.findViewById(R.id.cuiudRating);
-            cuiudRating.setText(concatRatingAndNotes(currentCondition.getCuiudInitiation()));
-            configureRatingTextView(cuiudRating, currentCondition.getCuiudInitiation());
+            setRatingText(textSwitchers, ratingToDisplay, currentCondition);
 
             TextView conditionNotes = (TextView) layout.findViewById(R.id.conditionNotes);
             if(currentCondition.hasNotes()) {
                 conditionNotes.setVisibility(View.VISIBLE);
                 conditionNotes.setText("*" + currentCondition.getNotes().first().getText());
             } else {
-                conditionNotes.setVisibility(View.GONE);
+                conditionNotes.setVisibility(GONE);
             }
 
             return layout;
         }
 
+        private TextSwitcher[] setupRatingTextSwitchers(final ViewGroup layout) {
+            TextSwitcher[] ratingTextViews = {
+                    (TextSwitcher) layout.findViewById(R.id.chcRating),
+                    (TextSwitcher) layout.findViewById(R.id.popRating),
+                    (TextSwitcher) layout.findViewById(R.id.dmpaRating),
+                    (TextSwitcher) layout.findViewById(R.id.implantsRating),
+                    (TextSwitcher) layout.findViewById(R.id.lngiudRating),
+                    (TextSwitcher) layout.findViewById(R.id.cuiudRating)
+            };
+
+            for(int i = 0; i < ratingTextViews.length; i++) {
+                final TextSwitcher textSwitcher = ratingTextViews[i];
+
+                textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                    @Override
+                    public View makeView() {
+                        LayoutInflater inflater = LayoutInflater.from(getActivity());
+                        TextView t = (TextView) inflater.inflate(R.layout.rating_textview_layout, null);
+                        t.setHeight(200);
+                        return t;
+                    }
+                });
+
+                Animation in = AnimationUtils.loadAnimation(getActivity(),
+                        android.R.anim.fade_in);
+                Animation out = AnimationUtils.loadAnimation(getActivity(),
+                        android.R.anim.fade_out);
+                textSwitcher.setInAnimation(in);
+                textSwitcher.setOutAnimation(out);
+            }
+
+            return ratingTextViews;
+        }
+
+        private void setRatingText(TextSwitcher[] textSwitchers, int id, Condition condition) {
+            ArrayList<Rating> ratings = new ArrayList<>();
+            switch (id) {
+                case R.id.initiationRadioButton:
+                    ratings.add(condition.getChcInitiation());
+                    ratings.add(condition.getPopInitiation());
+                    ratings.add(condition.getDmpaInitiation());
+                    ratings.add(condition.getImplantsInitiation());
+                    ratings.add(condition.getLngiudInitiation());
+                    ratings.add(condition.getCuiudInitiation());
+                    break;
+                case R.id.continuationRadioButton:
+                    ratings.add(condition.getChcContinuation());
+                    ratings.add(condition.getPopContinuation());
+                    ratings.add(condition.getDmpaContinuation());
+                    ratings.add(condition.getImplantsContinuation());
+                    ratings.add(condition.getLngiudContinuation());
+                    ratings.add(condition.getCuiudContinuation());
+                    break;
+                default:
+                    break;
+            }
+            for(int i = 0; i < textSwitchers.length; i++) {
+                TextSwitcher textSwitcher = textSwitchers[i];
+                Rating rating = ratings.get(i);
+                textSwitcher.setText(concatRatingAndNotes(rating));
+                configureRatingTextView(textSwitcher, rating);
+            }
+        }
+
         private SpannableString concatRatingAndNotes(Rating currentRating) {
+            if(currentRating == null) {
+                return new SpannableString("");
+            }
             String rating = currentRating.getRating();
             RealmList<Note> notes = currentRating.getNotes();
             String tempString = rating;
@@ -272,11 +369,14 @@ public class ConditionsPagerFragment extends Fragment {
             return returnString;
         }
 
-        private void configureRatingTextView(final TextView textView, final Rating rating) {
+        private void configureRatingTextView(final TextSwitcher textSwitcher, final Rating rating) {
+            if(rating == null) {
+                return;
+            }
             if(!rating.getNotes().isEmpty()) {
-                textView.setClickable(true);
-                textView.setFocusable(true);
-                textView.setOnClickListener(new View.OnClickListener() {
+                textSwitcher.setClickable(true);
+                textSwitcher.setFocusable(true);
+                textSwitcher.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent noteActivityIntent = new Intent(getContext(), NoteActivity.class);
@@ -290,8 +390,8 @@ public class ConditionsPagerFragment extends Fragment {
                     }
                 });
             } else {
-                textView.setClickable(false);
-                textView.setFocusable(false);
+                textSwitcher.setClickable(false);
+                textSwitcher.setFocusable(false);
             }
         }
 

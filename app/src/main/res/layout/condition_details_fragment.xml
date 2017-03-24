@@ -174,7 +174,7 @@
         />
 
         <TextView
-            android:id="@+id/chcRating"
+            android:id="@+id/ratingExample"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackground"
@@ -182,11 +182,26 @@
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@+id/chc"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/chc"
+            />
+
+        <TextSwitcher
+            android:id="@+id/chcRating"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/chc"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/chc"
+            app:layout_constraintBottom_toBottomOf="@+id/chc"
         />
+
 
         <View
             android:id="@+id/popRatingBackground"
@@ -218,7 +233,7 @@
         />
 
 
-        <TextView
+        <TextSwitcher
             android:id="@+id/popRating"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -263,7 +278,7 @@
         />
 
 
-        <TextView
+        <TextSwitcher
             android:id="@+id/dmpaRating"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
@@ -308,7 +323,7 @@
         />
 
 
-        <TextView
+        <TextSwitcher
             android:id="@+id/implantsRating"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
@@ -353,7 +368,7 @@
         />
 
 
-        <TextView
+        <TextSwitcher
             android:id="@+id/lngiudRating"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
@@ -397,7 +412,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lngiud"
         />
 
-        <TextView
+        <TextSwitcher
             android:id="@+id/cuiudRating"
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"
