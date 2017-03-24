@@ -25,4 +25,12 @@
     <string name="initiation">Initiation</string>
     <string name="continuation">Continuation</string>
     <string name="search_no_results">No results found</string>
+    <string name="key_1_text">Use the method in any circumstance</string>
+    <string name="key_1_label">1</string>
+    <string name="key_2_label">2</string>
+    <string name="key_2_text">Generally uses the method</string>
+    <string name="key_3_label">3</string>
+    <string name="key_3_text">Use of the method not usually recommended unless other, more appropriate methods are not available or acceptable</string>
+    <string name="key_4_label">4</string>
+    <string name="key_4_text">Method NOT to be used</string>
 </resources>

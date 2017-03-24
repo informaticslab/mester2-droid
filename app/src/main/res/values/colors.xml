@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#001F7D</color>
     <color name="colorAccent">#B3BFDE</color>
     <color name="colorLight">#E0E5F2</color>
+    <color name="colorMedium">#CAD2E8</color>
+
+
 
     <!--
      <color name="mcgpalette0_50">#e0e5f2</color>

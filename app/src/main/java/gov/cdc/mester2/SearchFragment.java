@@ -125,8 +125,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setIconified(false);
-        MenuItemCompat.expandActionView(item);
+/*        searchView.setIconified(false);
+        MenuItemCompat.expandActionView(item);*/
         searchView.setOnQueryTextListener(this);
     }
 

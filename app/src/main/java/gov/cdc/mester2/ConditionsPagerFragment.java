@@ -1,12 +1,15 @@
 package gov.cdc.mester2;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
@@ -32,7 +36,7 @@ import io.realm.RealmResults;
  */
 public class ConditionsPagerFragment extends Fragment {
     private final String TAG = "ConditionsPagerFragment";
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
     private ViewPager mPager;
     private Realm realm;
     private ArrayList<Condition> displayConditions = new ArrayList<>();
@@ -57,6 +61,8 @@ public class ConditionsPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         realm.close();
+        mPager = null;
+
     }
 
     @Override
@@ -217,31 +223,82 @@ public class ConditionsPagerFragment extends Fragment {
             subTitle.setText(currentCondition.getName());
 
             TextView chcRating = (TextView) layout.findViewById(R.id.chcRating);
-            chcRating.setText(currentCondition.getChcInitiation().getRating());
+            chcRating.setText(concatRatingAndNotes(currentCondition.getChcInitiation()));
+            configureRatingTextView(chcRating, currentCondition.getChcInitiation());
 
             TextView popRating = (TextView) layout.findViewById(R.id.popRating);
-            popRating.setText(currentCondition.getPopInitiation().getRating());
+            popRating.setText(concatRatingAndNotes(currentCondition.getPopInitiation()));
+            configureRatingTextView(popRating, currentCondition.getPopInitiation());
 
             TextView dmpaRating = (TextView) layout.findViewById(R.id.dmpaRating);
-            dmpaRating.setText(currentCondition.getDmpaInitiation().getRating());
+            dmpaRating.setText(concatRatingAndNotes(currentCondition.getDmpaInitiation()));
+            configureRatingTextView(dmpaRating, currentCondition.getDmpaInitiation());
 
             TextView implantsRating = (TextView) layout.findViewById(R.id.implantsRating);
-            implantsRating.setText(currentCondition.getImplantsInitiation().getRating());
+            implantsRating.setText(concatRatingAndNotes(currentCondition.getImplantsInitiation()));
+            configureRatingTextView(implantsRating, currentCondition.getImplantsInitiation());
 
             TextView lngiudRating = (TextView) layout.findViewById(R.id.lngiudRating);
-            lngiudRating.setText(currentCondition.getLngiudInitiation().getRating());
+            lngiudRating.setText(concatRatingAndNotes(currentCondition.getLngiudInitiation()));
+            configureRatingTextView(lngiudRating, currentCondition.getLngiudInitiation());
 
             TextView cuiudRating = (TextView) layout.findViewById(R.id.cuiudRating);
-            cuiudRating.setText(currentCondition.getCuiudInitiation().getRating());
+            cuiudRating.setText(concatRatingAndNotes(currentCondition.getCuiudInitiation()));
+            configureRatingTextView(cuiudRating, currentCondition.getCuiudInitiation());
+
+            TextView conditionNotes = (TextView) layout.findViewById(R.id.conditionNotes);
+            if(currentCondition.hasNotes()) {
+                conditionNotes.setVisibility(View.VISIBLE);
+                conditionNotes.setText("*" + currentCondition.getNotes().first().getText());
+            } else {
+                conditionNotes.setVisibility(View.GONE);
+            }
 
             return layout;
+        }
+
+        private SpannableString concatRatingAndNotes(Rating currentRating) {
+            String rating = currentRating.getRating();
+            RealmList<Note> notes = currentRating.getNotes();
+            String tempString = rating;
+            for (Note note : notes) {
+                tempString += note.getName();
+            }
+            SpannableString returnString = new SpannableString(tempString);
+            if (rating.length() > 0) {
+                returnString.setSpan(new SuperscriptSpan(), rating.length(), returnString.length(), 0);
+                returnString.setSpan(new RelativeSizeSpan(0.6f), rating.length(), returnString.length(), 0);
+            }
+            return returnString;
+        }
+
+        private void configureRatingTextView(final TextView textView, final Rating rating) {
+            if(!rating.getNotes().isEmpty()) {
+                textView.setClickable(true);
+                textView.setFocusable(true);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent noteActivityIntent = new Intent(getContext(), NoteActivity.class);
+                        String notes = "";
+                        for(Note note : rating.getNotes()) {
+                            notes += note.getName() +"\n" +note.getText() +"\n\n";
+                        }
+                        noteActivityIntent.putExtra("notes", notes);
+                        noteActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(noteActivityIntent);
+                    }
+                });
+            } else {
+                textView.setClickable(false);
+                textView.setFocusable(false);
+            }
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Condition currentCondition = displayConditions.get(position);
-            return "" +currentCondition.getParentCondition().getName() +"\n" +currentCondition.getName();
-
+            return "" +currentCondition.getParentCondition().getName() +"\n" +currentCondition.getName() +(currentCondition.hasNotes() ? "*" : "");
         }
 
         @Override
