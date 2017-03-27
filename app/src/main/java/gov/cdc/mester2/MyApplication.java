@@ -2,7 +2,6 @@ package gov.cdc.mester2;
 
 import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
