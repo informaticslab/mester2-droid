@@ -116,7 +116,6 @@ public class ConditionsPagerFragment extends Fragment {
 
         PagerAdapter mPagerAdapter = new ContentPagerAdapter(getActivity(), realm);
         mPager.setAdapter(mPagerAdapter);
-        mPager.setOffscreenPageLimit(10);
 
         tabLayout.setupWithViewPager(mPager);
 
@@ -205,25 +204,6 @@ public class ConditionsPagerFragment extends Fragment {
             container.addView(layout);
             final TextSwitcher[] textSwitchers = setupRatingTextSwitchers(layout);
 
-            Button right = (Button) layout.findViewById(R.id.rightArrow);
-            right.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int next = position == displayConditions.size() -1 ? 0 : position + 1;
-                    mPager.setCurrentItem(next, true);
-                }
-            });
-
-            Button left = (Button) layout.findViewById(R.id.leftArrow);
-            left.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int prev = position == 0 ? displayConditions.size() -1 : position - 1;
-                    mPager.setCurrentItem(prev, true);
-                }
-            });
-
-
             boolean hasContinuation = true;
             boolean hasInitiation = true;
 
@@ -266,13 +246,6 @@ public class ConditionsPagerFragment extends Fragment {
                 });
             }
             int ratingToDisplay = initiationContinuationControl.getCheckedRadioButtonId();
-
-
-            TextView title = (TextView) layout.findViewById(R.id.parentConditionTitle);
-            title.setText(currentCondition.getParentCondition().getName());
-
-            TextView subTitle = (TextView) layout.findViewById(R.id.subConditionTitle);
-            subTitle.setText(currentCondition.getName());
 
             setRatingText(textSwitchers, ratingToDisplay, currentCondition);
 

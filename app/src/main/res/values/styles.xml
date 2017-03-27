@@ -9,6 +9,7 @@
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorMedium</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:background">@null</item>
     </style>
 
 

@@ -1,6 +1,7 @@
 package gov.cdc.mester2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -35,15 +36,13 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
 
         realm = Realm.getDefaultInstance();
 
-        /* TODO: Uncomment this block for production
+
         SharedPreferences sp = getSharedPreferences("MEC_Preferences", 0);
         if(!sp.getBoolean("conditionsAdded", false)) {
-            SharedPreferences.Editor editor = sp.edit(); */
+            SharedPreferences.Editor editor = sp.edit();
             populateRealm();
-        /*
             editor.putBoolean("conditionsAdded", true).apply();
         }
-        */
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
