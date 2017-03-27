@@ -2,6 +2,7 @@ package gov.cdc.mester2;
 
 import io.realm.RealmObject;
 
+@SuppressWarnings("WeakerAccess")
 public class Note extends RealmObject{
     private String name, text;
 

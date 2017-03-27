@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -158,6 +157,7 @@ public class ConditionsPagerFragment extends Fragment {
         Condition condition = realm.where(Condition.class).equalTo("name", conditionName).findFirst();
         Condition firstChild = condition.getChildConditions().first();
 
+        //noinspection ConstantConditions
         if(DEBUG) {
             Log.d(TAG, "setDisplayCondition: " + conditionName);
             Log.d(TAG, "setDisplayCondition: Position of first child of " + conditionName + " is " +displayConditions.indexOf(firstChild) +": " +firstChild.getName());
@@ -173,11 +173,13 @@ public class ConditionsPagerFragment extends Fragment {
 
         public ContentPagerAdapter(Context context, Realm realm) {
             mContext = context;
+            //noinspection ConstantConditions
             if (DEBUG) {
                 Log.d(TAG, "ContentPagerAdapter: started");
             }
             query = realm.where(Condition.class).findAllSorted("name");
             for(Condition condition : query){
+                //noinspection ConstantConditions
                 if(DEBUG) {
                     Log.d(TAG, "ContentPagerAdapter: parentCondition.hasChildren(): " + (condition.getChildConditions().size() > 0));
                 }
@@ -187,6 +189,7 @@ public class ConditionsPagerFragment extends Fragment {
                     }
                 }
             }
+            //noinspection ConstantConditions
             if(DEBUG) {
                 Log.d(TAG, "ContentPagerAdapter: displayConditionsSize: " + displayConditions.size());
             }
@@ -195,6 +198,7 @@ public class ConditionsPagerFragment extends Fragment {
         @Override
         public Object instantiateItem(final ViewGroup container, final int position) {
             final Condition currentCondition = displayConditions.get(position);
+            //noinspection ConstantConditions
             if(DEBUG) {
                 Log.d(TAG, "instantiateItem: started");
             }

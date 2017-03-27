@@ -24,7 +24,6 @@ import io.realm.RealmList;
 public class WheelActivity extends AppCompatActivity implements ConditionsPagerFragment.OnFragmentInteractionListener {
     @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "Wheel Activity";
-    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Realm realm;
@@ -67,7 +66,7 @@ public class WheelActivity extends AppCompatActivity implements ConditionsPagerF
      */
     private void setupActionBarDrawerToggle() {
 
-        mDrawerToggle = new ActionBarDrawerToggle(
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
                 R.string.drawer_open,  /* "open drawer" description */

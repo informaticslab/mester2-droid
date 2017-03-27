@@ -12,13 +12,9 @@
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
 
-    <string name="search_hint">Condition name</string>
-
     <string name="about_text">About</string>
     <string name="license_agreement_text">License Agreement</string>
     <string name="support_text">Support</string>
-    <string name="left_arrow">←</string>
-    <string name="right_arrow">→</string>
     <string name="nav_about_us">About Us</string>
     <string name="nav_eula">User License Agreement</string>
     <string name="nav_support">Support</string>
@@ -33,4 +29,5 @@
     <string name="key_3_text">Use of the method not usually recommended unless other, more appropriate methods are not available or acceptable</string>
     <string name="key_4_label">4</string>
     <string name="key_4_text">Method NOT to be used</string>
+    <string name="mec_wheel_image_description">MEC Wheel image</string>
 </resources>
